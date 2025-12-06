@@ -15,10 +15,9 @@
             display: block; padding: 12px; margin-bottom: 8px;
             background: #f7d774; text-decoration: none; color: #222;
             border-radius: 8px; font-weight: 600;
+            cursor: pointer;
         }
-        .main {
-            margin-left: 260px; padding: 30px;
-        }
+        .main { margin-left: 260px; padding: 30px; }
         table { width: 90%; border-collapse: collapse; margin-top: 20px; }
         th, td { padding: 14px; background: white; border-bottom: 1px solid #ddd; text-align: left; }
 
@@ -26,11 +25,17 @@
         .btn-green { background: #2ecc71; color: white; }
         .btn-red { background: #e74c3c; color: white; }
 
-        /* MODAL */
-        .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display:flex;
-            justify-content:center; align-items:center; display:none; }
-        .modal { background:white; padding:25px; border-radius:12px; width:400px; }
-        .modal input, .modal select { width:100%; padding:12px; margin-bottom:12px; border-radius:10px; border:1px solid #ccc; }
+        .modal-bg {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+            display: none; justify-content:center; align-items:center;
+        }
+        .modal {
+            background:white; padding:25px; border-radius:12px; width:400px;
+        }
+        .modal input, .modal select {
+            width:100%; padding:12px; margin-bottom:12px;
+            border-radius:10px; border:1px solid #ccc;
+        }
     </style>
 </head>
 
@@ -38,17 +43,15 @@
 
 <div class="sidebar">
     <h2>Akgül Admin</h2>
-    <a href="#" onclick="showPage('dashboard')">Dashboard</a>
-    <a href="#" onclick="showPage('products')">Ürünler</a>
+    <a onclick="showPage('dashboard')">Dashboard</a>
+    <a onclick="showPage('products')">Ürünler</a>
     <a href="login.html" style="color:red;">Çıkış</a>
 </div>
 
 <div class="main">
 
-    <!-- DASHBOARD -->
     <div id="dashboard">
         <h1>Dashboard</h1>
-        <p>Yeni ürünler ekleyebilir, düzenleyebilir veya silebilirsiniz.</p>
         <button class="btn btn-green" onclick="openNewProduct()">+ Yeni Ürün</button>
 
         <table id="tableProducts">
@@ -58,21 +61,19 @@
         </table>
     </div>
 
-    <!-- ÜRÜNLER SAYFASI -->
     <div id="products" style="display:none;">
         <h1>Ürünler</h1>
         <button class="btn btn-green" onclick="openNewProduct()">+ Yeni Ürün</button>
 
         <table id="tableProducts2">
             <tr>
-                <th>Foto</th><th>Ad</th><th>Fiyat</th><th>Kat.</th><th>Stok</th><th>İşlem</th>
+                <th>Foto</th><th>Ad</th><th>Fiyat</th><th>Kategori</th><th>Stok</th><th>İşlem</th>
             </tr>
         </table>
     </div>
 
 </div>
 
-<!-- YENİ ÜRÜN MODALI -->
 <div class="modal-bg" id="modalNew">
     <div class="modal">
         <h2>Yeni Ürün</h2>
@@ -105,14 +106,12 @@
     </div>
 </div>
 
-<!-- DÜZENLEME MODALI -->
 <div class="modal-bg" id="modalEdit">
     <div class="modal">
         <h2>Ürünü Düzenle</h2>
 
         <input id="epName">
         <input id="epPrice">
-
         <select id="epCategory">
             <option value="meyve">Meyve & Sebze</option>
             <option value="et">Et & Şarküteri</option>
@@ -137,135 +136,121 @@
     </div>
 </div>
 
+
 <script>
+    function openNewProduct() {
+        document.getElementById("modalNew").style.display = "flex";
+    }
+    function closeNewProduct() {
+        document.getElementById("modalNew").style.display = "none";
+    }
+    function closeEdit() {
+        document.getElementById("modalEdit").style.display = "none";
+    }
+    function showPage(p) {
+        document.getElementById("dashboard").style.display = p === "dashboard" ? "block" : "none";
+        document.getElementById("products").style.display = p === "products" ? "block" : "none";
+    }
+</script>
 
-/* ---------------------------
-   TÜM ÜRÜNLER TEK DEPODA
---------------------------- */
 
-let products = JSON.parse(localStorage.getItem("products")) || [];
+<script type="module">
 
-function saveProducts() {
-    localStorage.setItem("products", JSON.stringify(products));
-}
+    import { db } from "./firebase.js";
+    import {
+        collection, getDocs, addDoc, deleteDoc, doc, updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* ---------------------------
-   SAYFA GEÇİŞİ
---------------------------- */
+    let products = [];
+    let editingID = null;
 
-function showPage(page) {
-    document.getElementById("dashboard").style.display = page === "dashboard" ? "block" : "none";
-    document.getElementById("products").style.display = page === "products" ? "block" : "none";
-    renderTables();
-}
+    async function loadProducts() {
+        const q = await getDocs(collection(db, "products"));
+        products = [];
+        q.forEach(d => products.push({ id: d.id, ...d.data() }));
+        renderTables();
+    }
 
-/* ---------------------------
-   TABLOLARI GÜNCELLE
---------------------------- */
+    function renderTables() {
+        let t1 = document.getElementById("tableProducts");
+        let t2 = document.getElementById("tableProducts2");
 
-function renderTables() {
-    let tbl1 = document.getElementById("tableProducts");
-    let tbl2 = document.getElementById("tableProducts2");
+        t1.innerHTML = t2.innerHTML =
+        `<tr><th>Foto</th><th>Ad</th><th>Fiyat</th><th>Kategori</th><th>Stok</th><th>İşlem</th></tr>`;
 
-    tbl1.innerHTML = `
-        <tr><th>Foto</th><th>Ad</th><th>Fiyat</th><th>Kategori</th><th>Stok</th><th>İşlem</th></tr>
-    `;
-    tbl2.innerHTML = tbl1.innerHTML;
+        products.forEach(p => {
+            let row = `
+                <tr>
+                    <td><img src="${p.image}" style="width:50px; border-radius:6px;"></td>
+                    <td>${p.name}</td>
+                    <td>${p.price} ₺</td>
+                    <td>${p.category}</td>
+                    <td>${p.stock}</td>
+                    <td>
+                        <button class='btn btn-green' onclick='window.openEdit("${p.id}")'>Düzenle</button>
+                        <button class='btn btn-red' onclick='window.deleteProduct("${p.id}")'>Sil</button>
+                    </td>
+                </tr>`;
+            t1.innerHTML += row;
+            t2.innerHTML += row;
+        });
+    }
 
-    products.forEach((p, i) => {
-        let row = `
-            <tr>
-                <td><img src="${p.img}" style="width:50px; border-radius:6px;"></td>
-                <td>${p.name}</td>
-                <td>${p.price} ₺</td>
-                <td>${p.category}</td>
-                <td>${p.stock}</td>
-                <td>
-                    <button class='btn btn-green' onclick='openEdit(${i})'>Düzenle</button>
-                    <button class='btn btn-red' onclick='deleteProduct(${i})'>Sil</button>
-                </td>
-            </tr>
-        `;
-        tbl1.innerHTML += row;
-        tbl2.innerHTML += row;
-    });
-}
+    /* ÜRÜN EKLEME */
+    // window. ön eki ile global kapsamda erişilebilir hale getirildi.
+    window.saveNewProduct = async function () {
+        await addDoc(collection(db, "products"), {
+            name: npName.value,
+            price: Number(npPrice.value),
+            category: npCategory.value,
+            stock: npStock.value,
+            image: npImg.value
+        });
 
-renderTables();
-
-/* ---------------------------
-   YENİ ÜRÜN EKLEME
---------------------------- */
-
-function openNewProduct() { 
-    document.getElementById("modalNew").style.display = "flex"; 
-}
-function closeNewProduct() { 
-    document.getElementById("modalNew").style.display = "none"; 
-}
-
-function saveNewProduct() {
-    products.push({
-        id: Date.now(),
-        name: npName.value,
-        price: npPrice.value,
-        category: npCategory.value,
-        stock: npStock.value,
-        img: npImg.value
-    });
-
-    saveProducts();
-    renderTables();
-    closeNewProduct();
-}
-
-/* ---------------------------
-   ÜRÜN DÜZENLEME
---------------------------- */
-
-let editIndex = null;
-
-function openEdit(i) {
-    editIndex = i;
-    let p = products[i];
-
-    epName.value = p.name;
-    epPrice.value = p.price;
-    epCategory.value = p.category;
-    epStock.value = p.stock;
-    epImg.value = p.img;
-
-    document.getElementById("modalEdit").style.display = "flex";
-}
-
-function closeEdit() {
-    document.getElementById("modalEdit").style.display = "none";
-}
-
-function saveEdit() {
-    products[editIndex] = {
-        id: products[editIndex].id,
-        name: epName.value,
-        price: epPrice.value,
-        category: epCategory.value,
-        stock: epStock.value,
-        img: epImg.value
+        closeNewProduct();
+        loadProducts();
     };
 
-    saveProducts();
-    renderTables();
-    closeEdit();
-}
+    /* ÜRÜN SİLME */
+    // window. ön eki ile global kapsamda erişilebilir hale getirildi.
+    window.deleteProduct = async function (id) {
+        await deleteDoc(doc(db, "products", id));
+        loadProducts();
+    };
 
-/* ---------------------------
-   ÜRÜN SİLME
---------------------------- */
+    /* ÜRÜN DÜZENLEME */
+    // window. ön eki ile global kapsamda erişilebilir hale getirildi.
+    window.openEdit = function (id) {
+        editingID = id;
+        let p = products.find(x => x.id === id);
 
-function deleteProduct(i) {
-    products.splice(i, 1);
-    saveProducts();
-    renderTables();
-}
+        epName.value = p.name;
+        epPrice.value = p.price;
+        epCategory.value = p.category;
+        epStock.value = p.stock;
+        epImg.value = p.image;
+
+        document.getElementById("modalEdit").style.display = "flex";
+    };
+
+    // window. ön eki ile global kapsamda erişilebilir hale getirildi.
+    window.saveEdit = async function () {
+        await updateDoc(doc(db, "products", editingID), {
+            name: epName.value,
+            price: Number(epPrice.value),
+            category: epCategory.value,
+            stock: epStock.value,
+            image: epImg.value
+        });
+
+        closeEdit();
+        loadProducts();
+    };
+
+    /* ESKİ MODAL/SAYFA KONTROL FONKSİYONLARI BURADAN KALDIRILDI. */
+
+    // Uygulama başlangıcı
+    loadProducts();
 
 </script>
 
