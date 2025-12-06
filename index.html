@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Akgül Market - QR Tanıtım Sayfası</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #f5f5f5;
+            color: #222;
+            line-height: 1.5;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        header {
+            background: linear-gradient(135deg, #ffb347, #ffcc33);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.3rem;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover { text-decoration: underline; }
+
+        .hero {
+            min-height: 60vh;
+            padding: 40px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+        }
+
+        .hero-text { max-width: 480px; }
+
+        .hero-text h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+
+        .hero-text p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .btn-primary { background: #ffb347; }
+        .btn-secondary { background: white; }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+        /* ⭐ ÜRÜNLER BUTONU (Özel tasarım) */
+        .products-btn {
+            display: block;
+            margin: 0 auto;
+            margin-top: 28px;
+            background: linear-gradient(135deg, #ffcc33, #ffb347);
+            color: #222;
+            padding: 14px 28px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: 0.2s;
+            text-align: center;
+            width: fit-content;
+        }
+
+        .products-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.15);
+        }
+
+        .hero-card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 320px;
+            text-align: center;
+        }
+
+        .hero-card h2 { font-size: 1.1rem; margin-bottom: 8px; }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            background: #fff5d6;
+            margin-bottom: 12px;
+        }
+
+        .section {
+            padding: 32px 24px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .section-title { font-size: 1.5rem; margin-bottom: 16px; }
+
+        .section p { color: #444; margin-bottom: 8px; }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px 18px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+
+        .info-list { list-style: none; margin-top: 8px; }
+        .info-list li { padding: 4px 0; font-size: 0.95rem; }
+
+        footer {
+            padding: 16px 24px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            .hero-text h1 { font-size: 1.8rem; }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="logo">Akgül Market</div>
+    <nav class="nav-links">
+        <a href="#hakkimizda">Hakkımızda</a>
+        <a href="#hizmetler">Hizmetler</a>
+        <a href="urunler.html" target="_blank">Ürünler</a>
+        <a href="#iletisim">İletişim</a>
+        <a href="#konum">Konum</a>
+    </nav>
+</header>
+
+<main>
+
+    <!-- HERO -->
+    <section class="hero" id="qr">
+        <div class="hero-text">
+            <h1>Mahallenizin Güvenilir Marketi</h1>
+            <p>
+                Akgül Market, taze ürünleri, güler yüzlü hizmeti ve uygun fiyatlarıyla
+                Bursa Gemlik bölgesinde 2020’dan beri hizmet veriyor.
+                QR kodu okutarak market bilgilerine tek tıkla ulaşabilirsiniz.
+            </p>
+            <div class="hero-buttons">
+                <a href="#hakkimizda"><button class="btn btn-primary">Hakkımızda</button></a>
+                <a href="#konum"><button class="btn btn-secondary">Konumu Gör</button></a>
+            </div>
+        </div>
+
+        <div class="hero-card">
+            <span class="tag">QR ile Hızlı Erişim</span>
+            <h2>Bu sayfaya QR kod ile ulaşabilirsiniz.</h2>
+            <p style="font-size: 0.9rem; margin-top: 6px;">Bu kartın altına QR kodunuzu ekleyebilirsiniz.</p>
+            <div id="qr-container" style="margin-top: 14px; border-radius: 12px; border: 1px dashed #ddd; padding: 16px;">
+                <!-- QR kodu dinamik olarak oluşturuluyor -->
+                <img id="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://akgul-market.example/" alt="Akgül Market QR" style="width:200px;height:200px;border-radius:8px;">
+                <p style="font-size:0.85rem;color:#777;margin-top:8px;">
+                    Sayfayı paylaşmak için QR kodu okutun. <a id="download-link" href="#" download="akgul-market-qr.png" style="color:#cc7a00;">QR'u indir</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ⭐ ÜRÜNLER BUTONU (Hero altına ekledik) -->
+    <a class="products-btn" href="urunler.html" target="_blank">
+        🛒 Ürünlerimizi İnceleyin
+    </a>
+
+    <!-- HAKKIMIZDA -->
+    <section class="section" id="hakkimizda">
+        <h2 class="section-title">Hakkımızda</h2>
+        <p><strong>Akgül Market</strong>, 2020 yılından bu yana Bursa’da hizmet veren,
+        taze ürün çeşitliliği ve uygun fiyat politikasıyla bölge halkının güvenini kazanmış bir mahalle marketidir.</p>
+
+        <p>Modern ve pratik alışveriş deneyimi sunmayı hedeflemektedir.</p>
+    </section>
+
+    <!-- HİZMETLER -->
+    <section class="section" id="hizmetler">
+        <h2 class="section-title">Hizmetlerimiz</h2>
+        <div class="cards">
+            <div class="card"><h3>Taze Ürün Reyonu</h3><p>Her gün yenilenen taze ürünler.</p></div>
+            <div class="card"><h3>Hızlı Kasa</h3><p>Kısa sürede ödeme yapma imkanı.</p></div>
+            <div class="card"><h3>Eve Teslimat</h3><p>Bölge içine özel sipariş teslimi.</p></div>
+        </div>
+    </section>
+
+    <!-- İLETİŞİM -->
+    <section class="section" id="iletisim">
+        <h2 class="section-title">İletişim</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>İletişim Bilgileri</h3>
+                <ul class="info-list">
+                    <li>Telefon: 0 (536) 394 17 32</li>
+                    <li>WhatsApp: 0 (536) 394 17 32</li>
+                    <li>E-posta: akgulmarket@gmail.com</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Çalışma Saatleri</h3>
+                <ul class="info-list">
+                    <li>Hafta içi: 07:00 – 23:30</li>
+                    <li>Hafta sonu: 07:00 – 23:30</li>
+                    <li>Resmî tatillerde açıktır.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+
+<!-- KONUM -->
+<section class="section" id="konum">
+    <h2 class="section-title">Konum</h2>
+    <p><strong>Adres:</strong> Eşref Dinçer Mah. Kuvayi Milliye Bulvarı No:197/B, Gemlik / Bursa</p>
+    <p style="margin-bottom: 12px;">
+        <a href="https://share.google/TcwFP1vveFv0Lygg3" target="_blank" style="color:#cc7a00;">
+            Google Haritalar'da Aç
+        </a>
+    </p>
+</section>
+
+
+</main>
+
+<footer>
+    © 2025 Akgül Market · Bu sayfa QR tanıtım amaçlı hazırlanmıştır.
+</footer>
+
+<script>
+(function(){
+  var qrImg = document.getElementById('qr-image');
+  var downloadLink = document.getElementById('download-link');
+  if(!qrImg || !downloadLink) return;
+  var pageUrl = window.location.href;
+  var api = 'https://api.qrserver.com/v1/create-qr-code/';
+  var size = '300x300';
+  var qrUrl = api + '?size=' + encodeURIComponent(size) + '&data=' + encodeURIComponent(pageUrl);
+  qrImg.src = qrUrl;
+  downloadLink.href = qrUrl;
+  qrImg.style.cursor = 'pointer';
+  qrImg.addEventListener('click', function(){ window.open(qrUrl, '_blank'); });
+})();
+</script>
+
+</body>
+</html>
