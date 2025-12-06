@@ -1,0 +1,157 @@
+/* GENEL */
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: #f9f6e9;
+    display: flex;
+}
+
+/* LOGIN SAYFASI */
+.login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+    width: 360px;
+    text-align: center;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #ffcc33;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.login-foot {
+    margin-top: 15px;
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    background: #faeebd;
+    height: 100vh;
+    padding: 25px;
+    box-shadow: 4px 0 12px rgba(0,0,0,0.08);
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+}
+
+.sidebar a.active {
+    background: #ffdd66;
+}
+
+.logout {
+    color: red !important;
+}
+
+/* İÇERİK */
+.content {
+    padding: 30px;
+    flex: 1;
+}
+
+/* TABLOLAR */
+.product-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+.product-table th, .product-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.edit-btn {
+    background: #3498db;
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: #e74c3c;
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 380px;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-save {
+    background: #27ae60;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: none;
+}
+
+.btn-cancel {
+    background: #e74c3c;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: none;
+}

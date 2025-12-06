@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Akgül Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body { margin: 0; font-family: system-ui; background: #faf7e8; }
+        .sidebar {
+            width: 230px; background: #f8e9a1; height: 100vh; padding: 20px; position: fixed;
+        }
+        .sidebar h2 { margin-top: 0; }
+        .sidebar a {
+            display: block; padding: 12px; margin-bottom: 8px;
+            background: #f7d774; text-decoration: none; color: #222;
+            border-radius: 8px; font-weight: 600;
+        }
+        .main {
+            margin-left: 260px; padding: 30px;
+        }
+        table { width: 90%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 14px; background: white; border-bottom: 1px solid #ddd; text-align: left; }
+
+        .btn { padding: 10px 14px; border: none; cursor: pointer; border-radius: 8px; font-weight: 600; }
+        .btn-green { background: #2ecc71; color: white; }
+        .btn-red { background: #e74c3c; color: white; }
+
+        /* MODAL */
+        .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display:flex;
+            justify-content:center; align-items:center; display:none; }
+        .modal { background:white; padding:25px; border-radius:12px; width:400px; }
+        .modal input, .modal select { width:100%; padding:12px; margin-bottom:12px; border-radius:10px; border:1px solid #ccc; }
+    </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Akgül Admin</h2>
+    <a href="#" onclick="showPage('dashboard')">Dashboard</a>
+    <a href="#" onclick="showPage('products')">Ürünler</a>
+    <a href="login.html" style="color:red;">Çıkış</a>
+</div>
+
+<div class="main">
+
+    <!-- DASHBOARD -->
+    <div id="dashboard">
+        <h1>Dashboard</h1>
+        <p>Yeni ürünler ekleyebilir, düzenleyebilir veya silebilirsiniz.</p>
+        <button class="btn btn-green" onclick="openNewProduct()">+ Yeni Ürün</button>
+
+        <table id="tableProducts">
+            <tr>
+                <th>Foto</th><th>Ad</th><th>Fiyat</th><th>Kategori</th><th>Stok</th><th>İşlem</th>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ÜRÜNLER SAYFASI -->
+    <div id="products" style="display:none;">
+        <h1>Ürünler</h1>
+        <button class="btn btn-green" onclick="openNewProduct()">+ Yeni Ürün</button>
+
+        <table id="tableProducts2">
+            <tr>
+                <th>Foto</th><th>Ad</th><th>Fiyat</th><th>Kat.</th><th>Stok</th><th>İşlem</th>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<!-- YENİ ÜRÜN MODALI -->
+<div class="modal-bg" id="modalNew">
+    <div class="modal">
+        <h2>Yeni Ürün</h2>
+
+        <input id="npName" placeholder="Ürün Adı">
+        <input id="npPrice" placeholder="Fiyat">
+
+        <select id="npCategory">
+            <option value="">Kategori Seç</option>
+            <option value="meyve">Meyve & Sebze</option>
+            <option value="et">Et & Şarküteri</option>
+            <option value="icecek">İçecek</option>
+            <option value="atistirmalik">Atıştırmalık</option>
+            <option value="temel">Temel Gıda</option>
+            <option value="temizlik">Temizlik</option>
+            <option value="bakim">Kişisel Bakım</option>
+            <option value="kahvalti">Kahvaltılık</option>
+            <option value="donuk">Donuk Ürün</option>
+        </select>
+
+        <select id="npStock">
+            <option value="var">Stok: Var</option>
+            <option value="yok">Stok: Yok</option>
+        </select>
+
+        <input id="npImg" placeholder="Fotoğraf URL">
+
+        <button class="btn btn-green" onclick="saveNewProduct()">Kaydet</button>
+        <button class="btn btn-red" onclick="closeNewProduct()">Kapat</button>
+    </div>
+</div>
+
+<!-- DÜZENLEME MODALI -->
+<div class="modal-bg" id="modalEdit">
+    <div class="modal">
+        <h2>Ürünü Düzenle</h2>
+
+        <input id="epName">
+        <input id="epPrice">
+
+        <select id="epCategory">
+            <option value="meyve">Meyve & Sebze</option>
+            <option value="et">Et & Şarküteri</option>
+            <option value="icecek">İçecek</option>
+            <option value="atistirmalik">Atıştırmalık</option>
+            <option value="temel">Temel Gıda</option>
+            <option value="temizlik">Temizlik</option>
+            <option value="bakim">Kişisel Bakım</option>
+            <option value="kahvalti">Kahvaltılık</option>
+            <option value="donuk">Donuk Ürün</option>
+        </select>
+
+        <select id="epStock">
+            <option value="var">Var</option>
+            <option value="yok">Yok</option>
+        </select>
+
+        <input id="epImg">
+
+        <button class="btn btn-green" onclick="saveEdit()">Kaydet</button>
+        <button class="btn btn-red" onclick="closeEdit()">Kapat</button>
+    </div>
+</div>
+
+<script>
+
+/* ---------------------------
+   TÜM ÜRÜNLER TEK DEPODA
+--------------------------- */
+
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+function saveProducts() {
+    localStorage.setItem("products", JSON.stringify(products));
+}
+
+/* ---------------------------
+   SAYFA GEÇİŞİ
+--------------------------- */
+
+function showPage(page) {
+    document.getElementById("dashboard").style.display = page === "dashboard" ? "block" : "none";
+    document.getElementById("products").style.display = page === "products" ? "block" : "none";
+    renderTables();
+}
+
+/* ---------------------------
+   TABLOLARI GÜNCELLE
+--------------------------- */
+
+function renderTables() {
+    let tbl1 = document.getElementById("tableProducts");
+    let tbl2 = document.getElementById("tableProducts2");
+
+    tbl1.innerHTML = `
+        <tr><th>Foto</th><th>Ad</th><th>Fiyat</th><th>Kategori</th><th>Stok</th><th>İşlem</th></tr>
+    `;
+    tbl2.innerHTML = tbl1.innerHTML;
+
+    products.forEach((p, i) => {
+        let row = `
+            <tr>
+                <td><img src="${p.img}" style="width:50px; border-radius:6px;"></td>
+                <td>${p.name}</td>
+                <td>${p.price} ₺</td>
+                <td>${p.category}</td>
+                <td>${p.stock}</td>
+                <td>
+                    <button class='btn btn-green' onclick='openEdit(${i})'>Düzenle</button>
+                    <button class='btn btn-red' onclick='deleteProduct(${i})'>Sil</button>
+                </td>
+            </tr>
+        `;
+        tbl1.innerHTML += row;
+        tbl2.innerHTML += row;
+    });
+}
+
+renderTables();
+
+/* ---------------------------
+   YENİ ÜRÜN EKLEME
+--------------------------- */
+
+function openNewProduct() { 
+    document.getElementById("modalNew").style.display = "flex"; 
+}
+function closeNewProduct() { 
+    document.getElementById("modalNew").style.display = "none"; 
+}
+
+function saveNewProduct() {
+    products.push({
+        id: Date.now(),
+        name: npName.value,
+        price: npPrice.value,
+        category: npCategory.value,
+        stock: npStock.value,
+        img: npImg.value
+    });
+
+    saveProducts();
+    renderTables();
+    closeNewProduct();
+}
+
+/* ---------------------------
+   ÜRÜN DÜZENLEME
+--------------------------- */
+
+let editIndex = null;
+
+function openEdit(i) {
+    editIndex = i;
+    let p = products[i];
+
+    epName.value = p.name;
+    epPrice.value = p.price;
+    epCategory.value = p.category;
+    epStock.value = p.stock;
+    epImg.value = p.img;
+
+    document.getElementById("modalEdit").style.display = "flex";
+}
+
+function closeEdit() {
+    document.getElementById("modalEdit").style.display = "none";
+}
+
+function saveEdit() {
+    products[editIndex] = {
+        id: products[editIndex].id,
+        name: epName.value,
+        price: epPrice.value,
+        category: epCategory.value,
+        stock: epStock.value,
+        img: epImg.value
+    };
+
+    saveProducts();
+    renderTables();
+    closeEdit();
+}
+
+/* ---------------------------
+   ÜRÜN SİLME
+--------------------------- */
+
+function deleteProduct(i) {
+    products.splice(i, 1);
+    saveProducts();
+    renderTables();
+}
+
+</script>
+
+</body>
+</html>

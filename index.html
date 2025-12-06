@@ -209,12 +209,8 @@
             <span class="tag">QR ile Hızlı Erişim</span>
             <h2>Bu sayfaya QR kod ile ulaşabilirsiniz.</h2>
             <p style="font-size: 0.9rem; margin-top: 6px;">Bu kartın altına QR kodunuzu ekleyebilirsiniz.</p>
-            <div id="qr-container" style="margin-top: 14px; border-radius: 12px; border: 1px dashed #ddd; padding: 16px;">
-                <!-- QR kodu dinamik olarak oluşturuluyor -->
-                <img id="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://akgul-market.example/" alt="Akgül Market QR" style="width:200px;height:200px;border-radius:8px;">
-                <p style="font-size:0.85rem;color:#777;margin-top:8px;">
-                    Sayfayı paylaşmak için QR kodu okutun. <a id="download-link" href="#" download="akgul-market-qr.png" style="color:#cc7a00;">QR'u indir</a>
-                </p>
+            <div style="margin-top: 14px; border-radius: 12px; border: 1px dashed #ddd; padding: 16px;">
+                <p style="font-size: 0.85rem; color: #777;">Buraya “qr-kod.png” görseli eklenebilir.</p>
             </div>
         </div>
     </section>
@@ -280,27 +276,12 @@
 </section>
 
 
+
 </main>
 
 <footer>
     © 2025 Akgül Market · Bu sayfa QR tanıtım amaçlı hazırlanmıştır.
 </footer>
-
-<script>
-(function(){
-  var qrImg = document.getElementById('qr-image');
-  var downloadLink = document.getElementById('download-link');
-  if(!qrImg || !downloadLink) return;
-  var pageUrl = window.location.href;
-  var api = 'https://api.qrserver.com/v1/create-qr-code/';
-  var size = '300x300';
-  var qrUrl = api + '?size=' + encodeURIComponent(size) + '&data=' + encodeURIComponent(pageUrl);
-  qrImg.src = qrUrl;
-  downloadLink.href = qrUrl;
-  qrImg.style.cursor = 'pointer';
-  qrImg.addEventListener('click', function(){ window.open(qrUrl, '_blank'); });
-})();
-</script>
 
 </body>
 </html>
