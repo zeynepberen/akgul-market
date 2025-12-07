@@ -37,6 +37,7 @@
         gap: 20px;
     }
 
+    /* ------------------ DÜZELTİLMİŞ ÜRÜN KARTI FOTOĞRAFI ------------------ */
     .card {
         background: white; padding: 14px; border-radius: 16px; text-align: center;
         box-shadow: 0 4px 14px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s;
@@ -44,8 +45,13 @@
     .card:hover { transform: translateY(-5px); }
 
     .card img {
-        width: 100%; height: 150px; object-fit: cover; border-radius: 12px;
+        width: 100%;
+        height: 150px;
+        object-fit: contain; /* 🔥 Fotoğraf kesilmiyor ve yamulmuyor */
+        background: white;
+        border-radius: 12px;
     }
+    /* ---------------------------------------------------------------------- */
 
     .price {
         display: inline-block; background: linear-gradient(135deg,#ffb347,#ff7b47);
@@ -66,6 +72,12 @@
     }
     #modal-content {
         background:white; padding:20px; border-radius:12px; width:90%; max-width:400px; text-align:center;
+    }
+
+    #modal-img {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
     }
 </style>
 </head>
@@ -107,13 +119,10 @@
     </div>
 </div>
 
-<!-- FIRESTORE ÜRÜN YÜKLEME -->
+<!-- FIRESTORE -->
 <script type="module">
     import { db } from "./firebase.js";
-    import {
-        collection,
-        getDocs
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     let allProducts = [];
 
@@ -122,10 +131,7 @@
 
         allProducts = [];
         q.forEach(doc => {
-            allProducts.push({
-                id: doc.id,
-                ...doc.data()
-            });
+            allProducts.push({ id: doc.id, ...doc.data() });
         });
 
         renderProducts(allProducts);
@@ -133,7 +139,7 @@
 
     loadProducts();
 
-    /* ---------- ÜRÜNLERİ EKRANA BAS ---------- */
+    /* ----------- ÜRÜN LİSTELEME ----------- */
     function renderProducts(list) {
         const grid = document.getElementById("productGrid");
         const msg = document.getElementById("emptyMsg");
@@ -159,19 +165,20 @@
         });
     }
 
-    /* ---------- KATEGORİ FİLTRE ---------- */
+    /* ----------- KATEGORİ FİLTRE ----------- */
     window.filterCategory = function (cat) {
-        if (cat === "all") renderProducts(allProducts);
-        else renderProducts(allProducts.filter(p => p.category === cat));
+        if (cat === "all") return renderProducts(allProducts);
+
+        renderProducts(allProducts.filter(p => p.category === cat));
     };
 
-    /* ---------- ARAMA ---------- */
+    /* ----------- ARAMA ----------- */
     document.getElementById("search").addEventListener("input", function () {
         const text = this.value.toLowerCase();
         renderProducts(allProducts.filter(p => p.name.toLowerCase().includes(text)));
     });
 
-    /* ---------- MODAL ---------- */
+    /* ----------- MODAL ----------- */
     window.openModal = function (id) {
         const p = allProducts.find(x => x.id === id);
 
