@@ -38,8 +38,9 @@
             font-weight: 800;
         }
 
+        
         .logo img {
-            height: 42px;
+            height: 65px;
             width: auto;
         }
 
@@ -54,13 +55,13 @@
 
         /* ---------------- HERO ---------------- */
         .hero {
-            padding: 70px 24px 50px 24px;
-            min-height: 60vh;
+            padding: 40px 24px 20px; 
+            min-height: 50vh;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            gap: 40px;
+            gap: 35px; 
         }
 
         .hero-text { max-width: 520px; }
@@ -68,12 +69,12 @@
         .hero-text h1 {
             font-size: 2.4rem;
             font-weight: 800;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
         }
 
         .hero-text p {
             font-size: 1.05rem;
-            margin-bottom: 22px;
+            margin-bottom: 18px;
             color: #444;
         }
 
@@ -102,7 +103,7 @@
         .products-btn {
             display: block;
             margin: 0 auto;
-            margin-top: 26px;
+            margin-top: 15px;  
             background: linear-gradient(135deg, #ffcc33, #ffb347);
             padding: 14px 30px;
             border-radius: 14px;
@@ -152,10 +153,21 @@
             border-top: 1px solid #f1d894;
         }
 
-        /* MOBİL UYUM */
+       
         @media (max-width: 640px) {
+
+            header {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
             .hero-text h1 { font-size: 1.9rem; }
-            header { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
@@ -184,7 +196,6 @@
         <div class="hero-text">
             <h1>Mahallenizin Güvenilir Marketi</h1>
 
-            <!--ORİJİNAL METİN KORUNDU -->
             <p>
                 Akgül Market, taze ürünleri ve uygun fiyat politikasıyla
                 Gemlik halkına 2020’den beri güvenle hizmet veriyor.
@@ -233,7 +244,7 @@
             <div class="card">
                 <h3>Çalışma Saatleri</h3>
                 <ul class="info-list">
-                       <li>Hafta içi: 07:00 – 23:30</li>
+                    <li>Hafta içi: 07:00 – 23:30</li>
                     <li>Hafta sonu: 07:00 – 23:30</li>
                     <li>Resmî tatillerde açıktır.</li>
                 </ul>
